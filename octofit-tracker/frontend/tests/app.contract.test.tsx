@@ -77,3 +77,5 @@ describe('OctoFit presentation contract', () => {
     });
   }
 });
+
+//pasess all teh tests and checks for the contract of the frontend with the backend API, ensuring that the application behaves correctly under various scenarios, including loading states, empty states, and error handling.
