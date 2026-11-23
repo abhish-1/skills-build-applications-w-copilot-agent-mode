@@ -30,13 +30,13 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 Record your plan here before editing code.
 
-- Presentation tier decision:
-- Logic tier decision:
-- Data tier decision:
-- Activity tracking approach:
-- Team management approach:
-- Leaderboard approach:
-- Workout suggestions approach:
+- Presentation tier decision: Use a shared capability card for request lifecycle and accessible loading, empty, and error states; keep API paths in page-specific loaders using the shared API client.
+- Logic tier decision: Validate API inputs and referenced documents in the service layer, returning deliberate 400 responses for invalid activity or team input.
+- Data tier decision: Require user name, email, and fitness goal; workout focus, minutes, and difficulty; activity references, type, minutes, points, and timestamp; and team name and mascot while defaulting members to an empty array.
+- Activity tracking approach: Accept existing user/team IDs, require a non-empty type and positive minutes, compute points from minutes, and set the occurrence time on creation.
+- Team management approach: Require a non-empty name and mascot, validate member IDs against existing users, and preserve member references in create/list responses.
+- Leaderboard approach: Aggregate activity points per team, include teams with no activities at zero points, sort by points descending (then name), and assign 1-based ranks.
+- Workout suggestions approach: Rank workouts by the user's fitness goal, then their five most recent activity types; include a reason for each suggestion and return 404 for an unknown email.
 
 ## Test plan
 
@@ -47,3 +47,6 @@ Record the commands you run and what each failure means.
 - Frontend command: `npm test --prefix octofit-tracker/frontend`
 - Backend build command: `npm run build --prefix octofit-tracker/backend`
 - Frontend build command: `npm run build --prefix octofit-tracker/frontend`
+- Verified API command and backend build: all 4 API contract tests passed and the backend TypeScript build passed. API failures indicate a route/service contract regression; build failures indicate backend type errors.
+- Verified frontend command and build: all 15 frontend tests passed and the frontend production build passed. Frontend test failures indicate a data-rendering or accessible-state regression; build failures indicate frontend type or bundling errors.
+- Verified data command: all 5 data contract tests passed, including required-field checks for User and Workout models.
